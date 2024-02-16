@@ -40,8 +40,8 @@ class EarlyStopper:
 
 
 ## load mean and std for normalization
-fm = np.load('Demodata/mean_demo.npz')
-fs = np.load('Demodata/std_demo.npz')
+fm = np.load('Demodata/mean_demo_sub.npz')
+fs = np.load('Demodata/std_demo_sub.npz')
 
 Um        = fm['U']
 Vm        = fm['V']
