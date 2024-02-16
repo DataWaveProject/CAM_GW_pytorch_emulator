@@ -92,7 +92,7 @@ for iter in s_list:
     if (iter > 1):
         model.load_state_dict(torch.load('conv_torch.pth'))
     print ('data loader iteration',iter)
-    filename  = './Demodata/newCAM_demo_' + str(iter).zfill(1) + '.nc'
+    filename  = './Demodata/newCAM_demo_sub_' + str(iter).zfill(1) + '.nc'
     print('working on: ', filename)
 
     F = nc.Dataset(filename)
