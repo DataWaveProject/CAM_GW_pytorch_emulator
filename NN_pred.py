@@ -42,8 +42,8 @@ num_epochs = 1
 
 
 ## load mean and std for normalization
-fm = np.load('Demodata/mean_avg.npz')
-fs = np.load('Demodata/std_avg.npz')
+fm = np.load('Demodata/mean_demo.npz')
+fs = np.load('Demodata/std_demo.npz')
 
 Um        = fm['U']
 Vm        = fm['V']
@@ -93,43 +93,43 @@ for iter in s_list:
  filename  = './Demodata/Demo_timestep_' + str(iter).zfill(3) + '.nc'
 
  F = nc.Dataset(filename)
- PS = np.asarray(F['PS'][0,:,:])
+ PS = np.asarray(F['PS'][0,:])
  PS = newnorm(PS, PSm, PSs)
 
- Z3 = np.asarray(F['Z3'][0,:,:,:])
+ Z3 = np.asarray(F['Z3'][0,:,:])
  Z3 = newnorm(Z3, Z3m, Z3s)
 
- U = np.asarray(F['U'][0,:,:,:])
+ U = np.asarray(F['U'][0,:,:])
  U = newnorm(U, Um, Us)
 
- V = np.asarray(F['V'][0,:,:,:])
+ V = np.asarray(F['V'][0,:,:])
  V = newnorm(V, Vm, Vs)
 
- T = np.asarray(F['T'][0,:,:,:])
+ T = np.asarray(F['T'][0,:,:])
  T = newnorm(T, Tm, Ts)
 
  lat = F['lat']
- lat = newnorm(lat, latm, lats)
+ lat = newnorm(lat, np.mean(lat), np.std(lat))
 
  lon = F['lon']
- lon = newnorm(lon, lonm, lons)
+ lon = newnorm(lon, np.mean(lon), np.std(lon))
 
- DSE = np.asarray(F['DSE'][0,:,:,:])
+ DSE = np.asarray(F['DSE'][0,:,:])
  DSE = newnorm(DSE, DSEm, DSEs)
 
- RHOI = np.asarray(F['RHOI'][0,:,:,:])
+ RHOI = np.asarray(F['RHOI'][0,:,:])
  RHOI = newnorm(RHOI, RHOIm, RHOIs)
 
- NETDT = np.asarray(F['NETDT'][0,:,:,:])
+ NETDT = np.asarray(F['NETDT'][0,:,:])
  NETDT = newnorm(NETDT, NETDTm, NETDTs)
 
- NM = np.asarray(F['NMBV'][0,:,:,:])
+ NM = np.asarray(F['NMBV'][0,:,:])
  NM = newnorm(NM, NMm, NMs)
 
- UTGWSPEC = np.asarray(F['UTGWSPEC'][0,:,:,:])
+ UTGWSPEC = np.asarray(F['BUTGWSPEC'][0,:,:])
  UTGWSPEC = newnorm(UTGWSPEC, UTGWSPECm, UTGWSPECs)
 
- VTGWSPEC = np.asarray(F['VTGWSPEC'][0,:,:,:])
+ VTGWSPEC = np.asarray(F['BVTGWSPEC'][0,:,:])
  VTGWSPEC = newnorm(VTGWSPEC, VTGWSPECm, VTGWSPECs)
 
  
