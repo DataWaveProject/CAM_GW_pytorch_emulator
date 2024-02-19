@@ -1,0 +1,61 @@
+[build-system]
+requires = ["setuptools >= 61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "newCAM_emulation"
+version = "0.0.0"
+description = "PyTorch Net to emulate the gravity wave drag in CAM"
+authors = [
+  { name="Qiang Sun", email="qiangsun@uchicago.edu" },
+]
+readme = "README.md"
+license = {file = "LICENSE"}
+requires-python = ">=3.9"
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Development Status :: 3 - Alpha",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3",
+    'Programming Language :: Python :: 3.9',
+    'Programming Language :: Python :: 3.10',
+    'Programming Language :: Python :: 3.11',
+    'Programming Language :: Python :: 3.12',
+    'Typing :: Typed',
+    "Operating System :: OS Independent",
+]
+
+dependencies = [
+    "numpy>=1.20.0",
+    "torch",
+    "torchvision",
+    "scipy",
+    "matplotlib",
+    "xarray",
+    "netcdf4",
+]
+
+[project.optional-dependencies]
+lint = [
+    "black>=24.1.0",
+    "pylint",
+    # "mypy>=1.0.0",
+    # "pytest>=7.2.0",
+    # "pytest-mock",
+    "pydocstyle",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/DataWaveProject/newCAM_emulation"
+"Bug Tracker" = "https://github.com/DataWaveProject/newCAM_emulation/issues"
+
+[tool.setuptools]
+# By default, include-package-data is true in pyproject.toml, so you do
+# NOT have to specify this line.
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["."]  # list of folders that contain the packages (["."] by default)
+include = ["newCAM_emulation*"]  # package names should match these glob patterns (["*"] by default)
+exclude = ["Demodata/*"]  # exclude packages matching these glob patterns (empty by default)
+namespaces = false  # to disable scanning PEP 420 namespaces (true by default)
