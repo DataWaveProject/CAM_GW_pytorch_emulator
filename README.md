@@ -8,6 +8,15 @@ It is 3D global output from the mid-top CAM model, on the original model grid.
 
 However, the demo data here is one very small part of the CAM output due to storage limit of Github. NN trained on this Demodata will not work.
 
+# Installing
+
+Clone this repo and enter it.\
+Then run:
+```
+pip install .
+```
+to install the neccessary dependencies.\
+It is recommended this is done from inside a virtual environment.
 
 # data loader
 load 3D CAM data and reshaping them to the NN input.
