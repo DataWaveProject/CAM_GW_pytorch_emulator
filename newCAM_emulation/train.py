@@ -40,8 +40,8 @@ class EarlyStopper:
 
 
 ## load mean and std for normalization
-fm = np.load('Demodata/mean_demo_sub.npz')
-fs = np.load('Demodata/std_demo_sub.npz')
+fm = np.load('../Demodata/mean_demo_sub.npz')
+fs = np.load('../Demodata/std_demo_sub.npz')
 
 Um        = fm['U']
 Vm        = fm['V']
@@ -92,7 +92,7 @@ for iter in s_list:
     if (iter > 1):
         model.load_state_dict(torch.load('conv_torch.pth'))
     print ('data loader iteration',iter)
-    filename  = './Demodata/newCAM_demo_sub_' + str(iter).zfill(1) + '.nc'
+    filename  = '../Demodata/newCAM_demo_sub_' + str(iter).zfill(1) + '.nc'
     print('working on: ', filename)
 
     F = nc.Dataset(filename)
