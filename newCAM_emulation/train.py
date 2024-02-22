@@ -19,6 +19,17 @@ else:
 print(f"Using device: {DEVICE}")
 
 
+from torch.cuda import is_available
+from torch.backends import mps
+if is_available():
+    DEVICE = "cuda"
+elif mps.is_available():
+    DEVICE = "mps"
+else:
+    DEVICE = "cpu"
+print(f"Using device: {DEVICE}")
+
+
 class EarlyStopper:
     """Class for implementing early stopping during training."""
 
