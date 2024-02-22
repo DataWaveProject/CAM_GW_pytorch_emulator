@@ -1,15 +1,9 @@
-import matplotlib
-import matplotlib.pyplot as plt
 import netCDF4 as nc
 import numpy as np
-import scipy.stats as st
-import xarray as xr
 
 import torch
 from torch import nn
-import torch.nn.utils.prune as prune
 from torch.utils.data import DataLoader
-from torch.utils.data import Dataset
 import Model
 from loaddata import newnorm, data_loader
 
