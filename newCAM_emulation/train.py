@@ -4,11 +4,12 @@ import Model
 import netCDF4 as nc
 import numpy as np
 import torch
-from loaddata import data_loader, newnorm
 from torch import nn
+from loaddata import data_loader, newnorm
 from torch.backends import mps
 from torch.cuda import is_available
 from torch.utils.data import DataLoader
+
 
 if is_available():
     DEVICE = "cuda"
