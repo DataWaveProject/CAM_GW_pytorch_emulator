@@ -58,20 +58,10 @@ To use the repository, following steps are required:
     ```bash
     git clone https://github.com/DataWaveProject/newCAM_emulation.git
     ```
-2. Check the dependecies and install them using `pip` or `conda`
-    ```bash
-    pip install <package>
-    ```
-    ```bash
-    conda install <package>
-    ```
-3. Run the `train.py` script to train the model
+2. Run the `train.py` script to train the model
     ```bash
     python3 train.py
     ```
-
-4. 
-
 
 ### Reference Paper:
 
@@ -79,3 +69,6 @@ To use the repository, following steps are required:
 
  *Authors: Y. Qiang Sun and Hamid A. Pahlavan and Ashesh Chattopadhyay and Pedram Hassanzadeh and Sandro W. Lubis and M. Joan Alexander and Edwin Gerber and Aditi Sheshadri and Yifei Guan*
 https://arxiv.org/pdf/2311.17078.pdf
+
+### License:
+The repository is licensed under MIT License - see the [LICENSE](LICENSE) file for details.
