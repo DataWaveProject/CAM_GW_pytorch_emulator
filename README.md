@@ -26,16 +26,10 @@ The dataset available in the `Demodata` is a sample output data from CAM. It is 
 
 - Output variables: zonal drag force, meridional drag force
 
-The data has been split in a ratio of 75:25 into training and validation data. 
+The data has been split in a ratio of 75:25 into training and validation sets. The input variables have been normalised using mean and standard deviation before feeding them to the model for training. Normalisation allows all the inputs to have similar ranges and distribution, hence preventing variables wiht large numerical scale to dominate the predictions.
 
 # Training
-The model is trained using the `train.py` file using the demo data. The optimiser used is an `Adam` optimiser with a `learning rate` of 0.001. The model is trained for 100 epochs.
-
-
-<!-- > Training Set- 
-
-> Validation Set- -->
-
+The model is trained using the `train.py` file using the demo data. The optimiser used is an `Adam` optimiser with a `learning rate` of 0.001. The model is trained for 100 `epochs`. The training comprises of an `early stopping` mechanism that helps prevent overfitting of the model. The loss in making the predictions is quantified in the form of an `MSE` (mean squared error) 
 
 # Repository Layout
 
