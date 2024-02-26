@@ -15,11 +15,13 @@ pip install .
 to install the neccessary dependencies.\
 It is recommended this is done from inside a virtual environment.
 
-# Model Architecture
+# Model Description
+
+## Architecture
 The machine leaning model is a Feed Forward Neural Network (FFNN) with 10 hidden layers and 500 neurons in 
 each layer. The activation used at each layer is a Sigmoid Linear Unit (SiLU) activation function.
 
-# Dataset
+## Dataset
 The dataset available in the `Demodata` is a sample output data from CAM. It is 3D global output from the mid-top CAM model, on the original model grid. The demo data here is one very small part of the CAM output and is only for demo purpose.
 
 - Input variables: pressure levels, latitude, longitude
@@ -28,10 +30,10 @@ The dataset available in the `Demodata` is a sample output data from CAM. It is 
 
 The data has been split in a ratio of 75:25 into training and validation sets. The input variables have been normalised using mean and standard deviation before feeding them to the model for training. Normalisation allows all the inputs to have similar ranges and distribution, hence preventing variables wiht large numerical scale to dominate the predictions.
 
-# Training
+## Training
 The model is trained using the `train.py` file using the demo data. The optimiser used is an `Adam` optimiser with a `learning rate` of 0.001. The model is trained for 100 `epochs`. The training comprises of an `early stopping` mechanism that helps prevent overfitting of the model. The loss in making the predictions is quantified in the form of an `MSE` (mean squared error) 
 
-# Repository Layout
+## Repository Layout
 
 > `Demodata` - contains the demo data
 
