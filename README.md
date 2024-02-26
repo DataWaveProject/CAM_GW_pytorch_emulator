@@ -26,20 +26,29 @@ The dataset available in the `Demodata` is a sample output data from CAM. It is 
 
 - Output variables: zonal drag force, meridional drag force
 
+The data has been split in a ratio of 75:25 into training and validation data. 
+
+# Training
+The model is trained using the `train.py` file using the demo data. The optimiser used is an `Adam` optimiser with a `learning rate` of 0.001. The model is trained for 100 epochs.
+
+
 <!-- > Training Set- 
 
 > Validation Set- -->
 
 
-# Files
+# Repository Layout
+
+> `Demodata` - contains the demo data
 
 > `train.py` - train the model
 
 > `NN-pred.py` - predict the GWD using the trained model
 
-> `data_loader.py` - load the data and reshape it to the NN input
+> `loaddata.py` - load the data and reshape it to the NN input
 
 > `model.py` - define the NN model
+
 
 <!-- 
 # data loader
