@@ -64,5 +64,8 @@ b. training the emulator online -->
 
 
 
-Reference Paper:
+### Reference Paper:
+
+**Data Imbalance, Uncertainty Quantification, and Generalization via Transfer Learning in Data-driven Parameterizations: Lessons from the Emulation of Gravity Wave Momentum Transport in WACCM.** 
+*Authors: Y. Qiang Sun and Hamid A. Pahlavan and Ashesh Chattopadhyay and Pedram Hassanzadeh and Sandro W. Lubis and M. Joan Alexander and Edwin Gerber and Aditi Sheshadri and Yifei Guan*
 https://arxiv.org/pdf/2311.17078.pdf
