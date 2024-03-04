@@ -7,13 +7,20 @@ The long-term goal of the model is to be coupled with a larger fortran-based num
 https://www.cesm.ucar.edu/models/cam.
 
 # Installing
-Clone this repo and enter it.\
-Then run:
-```
-pip install .
-```
-to install the neccessary dependencies.\
+1. Change your current working directory to the location where you want to clone the repository
+   ```bash
+    git clone git@github.com:DataWaveProject/newCAM_emulation.git
+    ```
+    to clone via ssh, or  
+    ```bash
+    git clone https://github.com/DataWaveProject/newCAM_emulation.git
+    ```
+2. Then run below command to install the neccessary dependencies:
+    ```
+    pip install .
+    ```
 It is recommended this is done from inside a virtual environment.
+
 
 # Model Description
 
@@ -40,25 +47,14 @@ The model is trained using the script `train.py` using the demo data. The optimi
 > `train.py` - train the model
 
 > `NN-pred.py` - predict the GWD using the trained model
-
+    
 > `loaddata.py` - load the data and reshape it to the NN input
 
 > `model.py` - define the NN model
 
-
-## Installations
-
 ## Usage Instructions
 To use the repository, following steps are required:
-1. Change your current working directory to the location where you want to keep the repository
-   ```bash
-    git clone git@github.com:DataWaveProject/newCAM_emulation.git
-    ```
-    to clone via ssh, or  
-    ```bash
-    git clone https://github.com/DataWaveProject/newCAM_emulation.git
-    ```
-2. Run the `train.py` script to train the model
+1. For example, to run the `train.py` script to train the model, run the below command: 
     ```bash
     python3 train.py
     ```
