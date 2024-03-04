@@ -1,8 +1,4 @@
-
-"""
-The following is an import of PyTorch libraries.
-"""
-import random
+"""Prediction module for the neural network."""
 
 import matplotlib.pyplot as plt
 import Model
@@ -144,7 +140,8 @@ for iter in s_list:
  print('shape of UTGWSPEC',np.shape(UTGWSPEC))
  print('shape of VTGWSPEC',np.shape(VTGWSPEC))
 
- x_test,y_test = data_loader (U,V,T, DSE, NM, NETDT, Z3, RHOI, PS,lat,lon,UTGWSPEC, VTGWSPEC)
+ x_test,y_test = data_loader (U,V,T, DSE, NM, NETDT, Z3,
+                              RHOI, PS,lat,lon,UTGWSPEC, VTGWSPEC)
 
  print('shape of x_test', np.shape(x_test))
  print('shape of y_test', np.shape(y_test))

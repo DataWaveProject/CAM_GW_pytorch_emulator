@@ -1,3 +1,5 @@
+"""Training script for the neural network."""
+
 import Model
 import netCDF4 as nc
 import numpy as np
@@ -18,11 +20,10 @@ print(f"Using device: {DEVICE}")
 
 
 class EarlyStopper:
-    """
-    Class for implementing early stopping during training.
-    """
+    """Class for implementing early stopping during training."""
+
     def __init__(self, patience=1, min_delta=0):
-        """ Create an instance of EarlyStopper class. """
+        """Create an instance of EarlyStopper class."""
         self.patience = patience
         self.min_delta = min_delta
         self.counter = 0
@@ -35,7 +36,8 @@ class EarlyStopper:
         Args:
             validation_loss (float): Loss value on the validation set.
 
-        Returns:
+        Returns
+        -------
             bool: True if early stopping condition is met, False otherwise.
         """
         if validation_loss < self.min_validation_loss:
@@ -150,15 +152,21 @@ for iter in s_list:
     VTGWSPEC = np.asarray(F['VTGWSPEC'][0,:,:])
     VTGWSPEC = newnorm(VTGWSPEC, VTGWSPECm, VTGWSPECs)
 
-    x_train,y_train = data_loader(U,V,T, DSE, NM, NETDT, Z3, RHOI, PS,lat,lon,UTGWSPEC, VTGWSPEC)
+    x_train,y_train = data_loader(U,V,T, DSE, NM, NETDT, Z3,
+                                  RHOI, PS,lat,lon,UTGWSPEC, VTGWSPEC)
 
     data = Model.myDataset(X=x_train, Y=y_train)
 
     batch_size = 128
 
-    split_data = torch.utils.data.random_split(data, [0.75, 0.25], generator=torch.Generator().manual_seed(42))
-    train_dataloader = DataLoader(split_data[0], batch_size=batch_size, shuffle=True)
-    val_dataloader = DataLoader(split_data[1], batch_size=len(split_data[1]), shuffle=True)
+    split_data = torch.utils.data.random_split(data, [0.75, 0.25],
+                                               generator=torch.Generator().manual_seed(42))
+    train_dataloader = DataLoader(split_data[0],
+                                  batch_size=batch_size,
+                                  shuffle=True)
+    val_dataloader = DataLoader(split_data[1],
+                                batch_size=len(split_data[1]),
+                                shuffle=True)
 
      # training
     early_stopper = EarlyStopper(patience=5, min_delta=0) # Note the hyper parameters.

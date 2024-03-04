@@ -1,3 +1,5 @@
+"""Neural Network model for the CAM-EM."""
+
 import netCDF4 as nc
 import numpy as np
 import scipy.stats as st
@@ -17,17 +19,18 @@ class myDataset(Dataset):
         X (numpy.ndarray): Input features.
         Y (numpy.ndarray): Corresponding labels.
     """
+
     def __init__(self, X, Y):
-        """ Create an instance of myDataset class. """
+        """Create an instance of myDataset class."""
         self.features = torch.tensor(X, dtype=torch.float64)
         self.labels = torch.tensor(Y, dtype=torch.float64)
 
     def __len__(self):
-        """ Return the number of samples in the dataset. """
+        """Return the number of samples in the dataset."""
         return len(self.features.T)
 
     def __getitem__(self, idx):
-        """ Return a sample from the dataset. """
+        """Return a sample from the dataset."""
         feature = self.features[:, idx]
         label = self.labels[:, idx]
 
@@ -39,13 +42,15 @@ class FullyConnected(nn.Module):
     """
     Fully connected neural network model.
 
-    This model consists of multiple fully connected layers with SiLU activation function.
+    The model consists of multiple fully connected layers with SiLU activation function.
 
-    Attributes:
+    Attributes
+    ----------
         linear_stack (torch.nn.Sequential): Sequential container for layers.
     """
+
     def __init__(self):
-        """ Create an instance of FullyConnected NN model. """
+        """Create an instance of FullyConnected NN model."""
         super(FullyConnected, self).__init__()
         ilev = 93
 
@@ -84,10 +89,10 @@ class FullyConnected(nn.Module):
         Args:
             X (torch.Tensor): Input tensor.
 
-        Returns:
+        Returns
+        -------
             torch.Tensor: Output tensor.
         """
-
         return self.linear_stack(X)
 
 
@@ -102,7 +107,8 @@ def train_loop(dataloader, model, loss_fn, optimizer):
         loss_fn (torch.nn.Module): Loss function.
         optimizer (torch.optim.Optimizer): Optimizer.
 
-    Returns:
+    Returns
+    -------
         float: Average training loss.
     """
     size = len(dataloader.dataset)
@@ -135,7 +141,8 @@ def val_loop(dataloader, model, loss_fn):
         model (nn.Module): Neural network model.
         loss_fn (torch.nn.Module): Loss function.
 
-    Returns:
+    Returns
+    -------
         float: Average validation loss.
     """
     avg_loss = 0
