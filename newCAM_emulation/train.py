@@ -12,7 +12,6 @@ from torch.utils.data import DataLoader
 
 from torch.cuda import is_available
 from torch.backends import mps
-
 if is_available():
     DEVICE = "cuda"
 elif mps.is_available():
@@ -54,6 +53,8 @@ class EarlyStopper:
             if self.counter >= self.patience:
                 return True
         return False
+
+
 
 
 ## load mean and std for normalization
