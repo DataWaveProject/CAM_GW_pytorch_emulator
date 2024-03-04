@@ -10,17 +10,6 @@ from torch import nn
 from torch.backends import mps
 from torch.cuda import is_available
 from torch.utils.data import DataLoader
-
-
-if is_available():
-    DEVICE = "cuda"
-elif mps.is_available():
-    DEVICE = "mps"
-else:
-    DEVICE = "cpu"
-print(f"Using device: {DEVICE}")
-
-
 from torch.cuda import is_available
 from torch.backends import mps
 
@@ -125,6 +114,7 @@ for iter in s_list:
     print("working on: ", filename)
 
     F = nc.Dataset(filename)
+
     PS = np.asarray(F["PS"][0, :])
     PS = newnorm(PS, PSm, PSs)
 
