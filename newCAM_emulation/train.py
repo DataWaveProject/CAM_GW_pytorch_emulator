@@ -1,16 +1,13 @@
+import Model
 import netCDF4 as nc
 import numpy as np
-
 import torch
+from loaddata import data_loader, newnorm
 from torch import nn
-from torch.utils.data import DataLoader
-import Model
-from loaddata import newnorm, data_loader
-
-
-
-from torch.cuda import is_available
 from torch.backends import mps
+from torch.cuda import is_available
+from torch.utils.data import DataLoader
+
 if is_available():
     DEVICE = "cuda"
 elif mps.is_available():
@@ -103,43 +100,43 @@ for iter in s_list:
     F = nc.Dataset(filename)
     PS = np.asarray(F['PS'][0,:])
     PS = newnorm(PS, PSm, PSs)
-    
+
     Z3 = np.asarray(F['Z3'][0,:,:])
     Z3 = newnorm(Z3, Z3m, Z3s)
-    
+
     U = np.asarray(F['U'][0,:,:])
     U = newnorm(U, Um, Us)
-    
+
     V = np.asarray(F['V'][0,:,:])
     V = newnorm(V, Vm, Vs)
-    
+
     T = np.asarray(F['T'][0,:,:])
     T = newnorm(T, Tm, Ts)
-    
+
     lat = F['lat']
     lat = newnorm(lat, np.mean(lat), np.std(lat))
-    
+
     lon = F['lon']
     lon = newnorm(lon, np.mean(lon), np.std(lon))
-    
+
     DSE = np.asarray(F['DSE'][0,:,:])
     DSE = newnorm(DSE, DSEm, DSEs)
-    
+
     RHOI = np.asarray(F['RHOI'][0,:,:])
     RHOI = newnorm(RHOI, RHOIm, RHOIs)
-    
+
     NETDT = np.asarray(F['NETDT'][0,:,:])
     NETDT = newnorm(NETDT, NETDTm, NETDTs)
-    
+
     NM = np.asarray(F['NMBV'][0,:,:])
     NM = newnorm(NM, NMm, NMs)
-    
+
     UTGWSPEC = np.asarray(F['UTGWSPEC'][0,:,:])
     UTGWSPEC = newnorm(UTGWSPEC, UTGWSPECm, UTGWSPECs)
-    
+
     VTGWSPEC = np.asarray(F['VTGWSPEC'][0,:,:])
     VTGWSPEC = newnorm(VTGWSPEC, VTGWSPECm, VTGWSPECs)
-    
+
     x_train,y_train = data_loader(U,V,T, DSE, NM, NETDT, Z3, RHOI, PS,lat,lon,UTGWSPEC, VTGWSPEC)
 
     data = Model.myDataset(X=x_train, Y=y_train)
@@ -158,11 +155,11 @@ for iter in s_list:
             print(val_losses[-1])
             print('counter=' + str(early_stopper.counter))
         train_loss = Model.train_loop(train_dataloader, model, nn.MSELoss(), optimizer)
-		
+
         train_losses.append(train_loss)
         val_loss = Model.val_loop(val_dataloader, model, nn.MSELoss())
         val_losses.append(val_loss)
         if early_stopper.early_stop(val_loss):
             print("BREAK!")
             break
-                                                                                                             
+

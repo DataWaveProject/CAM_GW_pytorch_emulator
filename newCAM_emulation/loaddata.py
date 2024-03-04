@@ -21,7 +21,7 @@ def data_loader (U,V,T, DSE, NM, NETDT, Z3, RHOI, PS, lat, lon, UTGWSPEC, VTGWSP
   Ncol = U.shape[1]
   #Nlon = U.shape[2]
   #Ncol = Nlat*Nlon
-   
+
   x_train = np.zeros([dim_NN,Ncol])
   y_train = np.zeros([dim_NNout,Ncol])
 

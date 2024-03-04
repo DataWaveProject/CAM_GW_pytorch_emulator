@@ -1,13 +1,11 @@
 import netCDF4 as nc
 import numpy as np
 import scipy.stats as st
-import xarray as xr
-
 import torch
+import xarray as xr
 from torch import nn
-import torch.nn.utils.prune as prune
-from torch.utils.data import DataLoader
-from torch.utils.data import Dataset
+from torch.nn.utils import prune
+from torch.utils.data import DataLoader, Dataset
 
 
 # Required for feeding the data iinto NN.
