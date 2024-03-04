@@ -10,16 +10,24 @@ from torch.utils.data import DataLoader, Dataset
 
 # Required for feeding the data iinto NN.
 class myDataset(Dataset):
-    def __init__(self, X, Y):
+    """
+    Dataset class for loading features and labels.
 
+    Args:
+        X (numpy.ndarray): Input features.
+        Y (numpy.ndarray): Corresponding labels.
+    """
+    def __init__(self, X, Y):
+        """ Create an instance of myDataset class. """
         self.features = torch.tensor(X, dtype=torch.float64)
         self.labels = torch.tensor(Y, dtype=torch.float64)
 
     def __len__(self):
+        """ Return the number of samples in the dataset. """
         return len(self.features.T)
 
     def __getitem__(self, idx):
-
+        """ Return a sample from the dataset. """
         feature = self.features[:, idx]
         label = self.labels[:, idx]
 
@@ -28,7 +36,16 @@ class myDataset(Dataset):
 
 # The NN model.
 class FullyConnected(nn.Module):
+    """
+    Fully connected neural network model.
+
+    This model consists of multiple fully connected layers with SiLU activation function.
+
+    Attributes:
+        linear_stack (torch.nn.Sequential): Sequential container for layers.
+    """
     def __init__(self):
+        """ Create an instance of FullyConnected NN model. """
         super(FullyConnected, self).__init__()
         ilev = 93
 
@@ -61,12 +78,33 @@ class FullyConnected(nn.Module):
         )
 
     def forward(self, X):
+        """
+        Forward pass through the network.
+
+        Args:
+            X (torch.Tensor): Input tensor.
+
+        Returns:
+            torch.Tensor: Output tensor.
+        """
 
         return self.linear_stack(X)
 
 
 # training loop
 def train_loop(dataloader, model, loss_fn, optimizer):
+    """
+    Training loop.
+
+    Args:
+        dataloader (DataLoader): DataLoader for training data.
+        model (nn.Module): Neural network model.
+        loss_fn (torch.nn.Module): Loss function.
+        optimizer (torch.optim.Optimizer): Optimizer.
+
+    Returns:
+        float: Average training loss.
+    """
     size = len(dataloader.dataset)
     avg_loss = 0
     for batch, (X, Y) in enumerate(dataloader):
@@ -89,6 +127,17 @@ def train_loop(dataloader, model, loss_fn, optimizer):
 
 # validating loop
 def val_loop(dataloader, model, loss_fn):
+    """
+    Validation loop.
+
+    Args:
+        dataloader (DataLoader): DataLoader for validation data.
+        model (nn.Module): Neural network model.
+        loss_fn (torch.nn.Module): Loss function.
+
+    Returns:
+        float: Average validation loss.
+    """
     avg_loss = 0
     with torch.no_grad():
         for batch, (X, Y) in enumerate(dataloader):

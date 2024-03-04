@@ -18,13 +18,26 @@ print(f"Using device: {DEVICE}")
 
 
 class EarlyStopper:
+    """
+    Class for implementing early stopping during training.
+    """
     def __init__(self, patience=1, min_delta=0):
+        """ Create an instance of EarlyStopper class. """
         self.patience = patience
         self.min_delta = min_delta
         self.counter = 0
         self.min_validation_loss = np.inf
 
     def early_stop(self, validation_loss):
+        """
+        Check if early stopping condition is met.
+
+        Args:
+            validation_loss (float): Loss value on the validation set.
+
+        Returns:
+            bool: True if early stopping condition is met, False otherwise.
+        """
         if validation_loss < self.min_validation_loss:
             self.min_validation_loss = validation_loss
             self.counter = 0
