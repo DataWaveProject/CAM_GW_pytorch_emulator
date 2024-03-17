@@ -15,6 +15,7 @@ https://www.cesm.ucar.edu/models/cam.
     ```bash
     git clone https://github.com/DataWaveProject/newCAM_emulation.git
     ```
+    to clone via https
 2. Then run below command to install the neccessary dependencies:
     ```
     pip install .
@@ -41,9 +42,9 @@ The data has been split in a ratio of 75:25 into training and validation sets. T
 The model is trained using the script `train.py` using the demo data. The optimiser used is an `Adam` optimiser with a `learning rate` of 0.001. The data is divided into 128 batches for faster training and effcient memory usage and is run on the model for 100 `epochs`. The training comprises of an `early stopping` mechanism that helps prevent overfitting of the model. The loss in making the predictions is quantified in the form of an `MSE` (mean squared error). The  
 
 ## Repository Layout
+The `Demodata` folder contains the demo data used to train and test the model
 
-> `Demodata` - contains the demo data
-
+The `newCAM_emulation` folder contains the code that is required to load data, train the model and make predictions which is structured as following:
 > `train.py` - train the model
 
 > `NN-pred.py` - predict the GWD using the trained model
