@@ -1,3 +1,5 @@
+"""Implementing data loader for training neural network."""
+
 import numpy as np
 
 ilev = 93
@@ -5,6 +7,17 @@ dim_NN =int(8*ilev+4)
 dim_NNout =int(2*ilev)
 
 def newnorm(var, varm, varstd):
+  """Normalizes the input variable(s) using mean and standard deviation.
+
+  Args:
+      var (numpy.ndarray): Input variable(s) to be normalized.
+      varm (numpy.ndarray): Mean of the variable(s).
+      varstd (numpy.ndarray): Standard deviation of the variable(s).
+
+  Returns
+  -------
+      numpy.ndarray: Normalized variable(s).
+  """
   dim=varm.size
   if dim > 1 :
     vara = var - varm[:, :]
@@ -17,11 +30,32 @@ def newnorm(var, varm, varstd):
 
 
 def data_loader (U,V,T, DSE, NM, NETDT, Z3, RHOI, PS, lat, lon, UTGWSPEC, VTGWSPEC):
+  """
+  Loads and preprocesses input data for neural network training.
 
+  Args:
+      U (numpy.ndarray): Zonal wind component.
+      V (numpy.ndarray): Meridional wind component.
+      T (numpy.ndarray): Temperature.
+      DSE (numpy.ndarray): Dry static energy.
+      NM (numpy.ndarray): Northward mass flux.
+      NETDT (numpy.ndarray): Net downward total radiation flux.
+      Z3 (numpy.ndarray): Geopotential height.
+      RHOI (numpy.ndarray): Air density.
+      PS (numpy.ndarray): Surface pressure.
+      lat (numpy.ndarray): Latitude.
+      lon (numpy.ndarray): Longitude.
+      UTGWSPEC (numpy.ndarray): Target zonal wind spectral component.
+      VTGWSPEC (numpy.ndarray): Target meridional wind spectral component.
+
+  Returns
+  -------
+      tuple: A tuple containing the input data and target data arrays.
+  """
   Ncol = U.shape[1]
   #Nlon = U.shape[2]
   #Ncol = Nlat*Nlon
-   
+
   x_train = np.zeros([dim_NN,Ncol])
   y_train = np.zeros([dim_NNout,Ncol])
 

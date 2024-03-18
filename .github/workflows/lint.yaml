@@ -1,0 +1,30 @@
+name: Python Linting CI
+
+on:
+  push:
+    branches: [ $default-branch ]
+  pull_request:
+    types:
+    - synchronize
+    - opened
+    - reopened
+
+jobs:
+  linting: 
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install .[lint]
+      # annotate each step with `if: always` to run all regardless
+      - name: Check code formatting with ruff
+        if: always()
+        run: ruff format --diff newCAM_emulation/
+      - name: Lint with ruff using pyproject.toml configuration
+        if: always()
+        run: ruff check newCAM_emulation/

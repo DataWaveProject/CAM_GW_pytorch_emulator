@@ -1,23 +1,17 @@
+"""Prediction module for the neural network."""
 
-"""
-The following is an import of PyTorch libraries.
-"""
+import matplotlib.pyplot as plt
+import Model
+import netCDF4 as nc
+import numpy as np
 import torch
-import torch.nn as nn
 import torch.nn.functional as nnF
-from torch.utils.data import DataLoader
 import torchvision
+from loaddata import data_loader, newnorm
+from torch import nn
+from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 from torchvision.utils import save_image
-import matplotlib.pyplot as plt
-import numpy as np
-import random
-import netCDF4 as nc
-import Model
-from loaddata import newnorm, data_loader
-
-
-
 
 """
 Determine if any GPUs are available
@@ -132,7 +126,7 @@ for iter in s_list:
  VTGWSPEC = np.asarray(F['BVTGWSPEC'][0,:,:])
  VTGWSPEC = newnorm(VTGWSPEC, VTGWSPECm, VTGWSPECs)
 
- 
+
 
  print('shape of PS',np.shape(PS))
  print('shape of Z3',np.shape(Z3))
@@ -146,8 +140,9 @@ for iter in s_list:
  print('shape of UTGWSPEC',np.shape(UTGWSPEC))
  print('shape of VTGWSPEC',np.shape(VTGWSPEC))
 
- x_test,y_test = data_loader (U,V,T, DSE, NM, NETDT, Z3, RHOI, PS,lat,lon,UTGWSPEC, VTGWSPEC)
- 
+ x_test,y_test = data_loader (U,V,T, DSE, NM, NETDT, Z3,
+                              RHOI, PS,lat,lon,UTGWSPEC, VTGWSPEC)
+
  print('shape of x_test', np.shape(x_test))
  print('shape of y_test', np.shape(y_test))
 
@@ -166,10 +161,10 @@ for iter in s_list:
  print(np.corrcoef(truth.flatten(), predict.flatten())[0, 1])
  print('shape of truth ',np.shape(truth))
  print('shape of prediction',np.shape(predict))
- 
+
  np.save('./pred_data_' + str(iter) + '.npy', predict)
 
 
 
-     
-  
+
+

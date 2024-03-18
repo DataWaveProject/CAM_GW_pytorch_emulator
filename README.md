@@ -1,5 +1,8 @@
-# Overview
-The repository contains the code for a machine learning model that emulates the climatic process of gravity wave drag (GWD, both zonal and meridional). The model is a part of parameterization scheme where smaller and highly dynamical climatic processes are emulated using neural networks. 
+# newCAM-Emulation
+
+This is a DNN written with PyTorch to Emulate the gravity wave drag (GWD, both zonal and meridional) in the CAM model.
+The repository contains the code for a machine learning model that emulates the climatic process of gravity wave drag (GWD, both zonal and meridional).
+The model is a part of parameterization scheme where smaller and highly dynamical climatic processes are emulated using neural networks. 
 
 Gravity waves, also called buyoncy waves are formed due to displacement of air in the atmosphere instigated by differnt physical mechanisms, such as moist convection, orographic lifting, shear unstability etc. These waves can propagate both vertically and horizontally through the lift and drag mechanism respectively. This ML model focuses on the drag component of gravity waves.
 

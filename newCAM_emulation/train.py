@@ -1,28 +1,45 @@
-import matplotlib
-import matplotlib.pyplot as plt
+"""Training script for the neural network."""
+
+import Model
 import netCDF4 as nc
 import numpy as np
-import scipy.stats as st
-import xarray as xr
-
 import torch
+from loaddata import data_loader, newnorm
 from torch import nn
-import torch.nn.utils.prune as prune
+from torch.backends import mps
+from torch.cuda import is_available
 from torch.utils.data import DataLoader
-from torch.utils.data import Dataset
-import Model
-from loaddata import newnorm, data_loader
 
+if is_available():
+    DEVICE = "cuda"
+elif mps.is_available():
+    DEVICE = "mps"
+else:
+    DEVICE = "cpu"
+print(f"Using device: {DEVICE}")
 
 
 class EarlyStopper:
+    """Class for implementing early stopping during training."""
+
     def __init__(self, patience=1, min_delta=0):
+        """Create an instance of EarlyStopper class."""
         self.patience = patience
         self.min_delta = min_delta
         self.counter = 0
         self.min_validation_loss = np.inf
 
     def early_stop(self, validation_loss):
+        """
+        Check if early stopping condition is met.
+
+        Args:
+            validation_loss (float): Loss value on the validation set.
+
+        Returns
+        -------
+            bool: True if early stopping condition is met, False otherwise.
+        """
         if validation_loss < self.min_validation_loss:
             self.min_validation_loss = validation_loss
             self.counter = 0
@@ -98,52 +115,58 @@ for iter in s_list:
     F = nc.Dataset(filename)
     PS = np.asarray(F['PS'][0,:])
     PS = newnorm(PS, PSm, PSs)
-    
+
     Z3 = np.asarray(F['Z3'][0,:,:])
     Z3 = newnorm(Z3, Z3m, Z3s)
-    
+
     U = np.asarray(F['U'][0,:,:])
     U = newnorm(U, Um, Us)
-    
+
     V = np.asarray(F['V'][0,:,:])
     V = newnorm(V, Vm, Vs)
-    
+
     T = np.asarray(F['T'][0,:,:])
     T = newnorm(T, Tm, Ts)
-    
+
     lat = F['lat']
     lat = newnorm(lat, np.mean(lat), np.std(lat))
-    
+
     lon = F['lon']
     lon = newnorm(lon, np.mean(lon), np.std(lon))
-    
+
     DSE = np.asarray(F['DSE'][0,:,:])
     DSE = newnorm(DSE, DSEm, DSEs)
-    
+
     RHOI = np.asarray(F['RHOI'][0,:,:])
     RHOI = newnorm(RHOI, RHOIm, RHOIs)
-    
+
     NETDT = np.asarray(F['NETDT'][0,:,:])
     NETDT = newnorm(NETDT, NETDTm, NETDTs)
-    
+
     NM = np.asarray(F['NMBV'][0,:,:])
     NM = newnorm(NM, NMm, NMs)
-    
+
     UTGWSPEC = np.asarray(F['UTGWSPEC'][0,:,:])
     UTGWSPEC = newnorm(UTGWSPEC, UTGWSPECm, UTGWSPECs)
-    
+
     VTGWSPEC = np.asarray(F['VTGWSPEC'][0,:,:])
     VTGWSPEC = newnorm(VTGWSPEC, VTGWSPECm, VTGWSPECs)
-    
-    x_train,y_train = data_loader(U,V,T, DSE, NM, NETDT, Z3, RHOI, PS,lat,lon,UTGWSPEC, VTGWSPEC)
+
+    x_train,y_train = data_loader(U,V,T, DSE, NM, NETDT, Z3,
+                                  RHOI, PS,lat,lon,UTGWSPEC, VTGWSPEC)
 
     data = Model.myDataset(X=x_train, Y=y_train)
 
     batch_size = 128
 
-    split_data = torch.utils.data.random_split(data, [0.75, 0.25], generator=torch.Generator().manual_seed(42))
-    train_dataloader = DataLoader(split_data[0], batch_size=batch_size, shuffle=True)
-    val_dataloader = DataLoader(split_data[1], batch_size=len(split_data[1]), shuffle=True)
+    split_data = torch.utils.data.random_split(data, [0.75, 0.25],
+                                               generator=torch.Generator().manual_seed(42))
+    train_dataloader = DataLoader(split_data[0],
+                                  batch_size=batch_size,
+                                  shuffle=True)
+    val_dataloader = DataLoader(split_data[1],
+                                batch_size=len(split_data[1]),
+                                shuffle=True)
 
      # training
     early_stopper = EarlyStopper(patience=5, min_delta=0) # Note the hyper parameters.
@@ -153,11 +176,11 @@ for iter in s_list:
             print(val_losses[-1])
             print('counter=' + str(early_stopper.counter))
         train_loss = Model.train_loop(train_dataloader, model, nn.MSELoss(), optimizer)
-		
+
         train_losses.append(train_loss)
         val_loss = Model.val_loop(val_dataloader, model, nn.MSELoss())
         val_losses.append(val_loss)
         if early_stopper.early_stop(val_loss):
             print("BREAK!")
             break
-                                                                                                             
+
