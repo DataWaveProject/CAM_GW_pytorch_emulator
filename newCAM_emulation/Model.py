@@ -1,92 +1,104 @@
 """Neural Network model for the CAM-EM."""
 
-import netCDF4 as nc
-import numpy as np
-import scipy.stats as st
 import torch
-import xarray as xr
+import numpy as np
 from torch import nn
-from torch.nn.utils import prune
-from torch.utils.data import DataLoader, Dataset
-
-
-# Required for feeding the data iinto NN.
-class myDataset(Dataset):
-    """
-    Dataset class for loading features and labels.
-
-    Args:
-        X (numpy.ndarray): Input features.
-        Y (numpy.ndarray): Corresponding labels.
-    """
-
-    def __init__(self, X, Y):
-        """Create an instance of myDataset class."""
-        self.features = torch.tensor(X, dtype=torch.float64)
-        self.labels = torch.tensor(Y, dtype=torch.float64)
-
-    def __len__(self):
-        """Return the number of samples in the dataset."""
-        return len(self.features.T)
-
-    def __getitem__(self, idx):
-        """Return a sample from the dataset."""
-        feature = self.features[:, idx]
-        label = self.labels[:, idx]
-
-        return feature, label
-
-
-# The NN model.
-class NormalizationLayer(nn.Module):
-    def __init__(self, mean, std):
-        super(NormalizationLayer, self).__init__()
-        self.mean = mean
-        self.std = std
-
-    def forward(self, x):
-        return (x - self.mean) / self.std
 
 
 class FullyConnected(nn.Module):
     """
     Fully connected neural network model.
 
-    The model consists of multiple fully connected layers with SiLU activation function.
-
     Attributes
     ----------
-        linear_stack (torch.nn.Sequential): Sequential container for layers.
+    linear_stack : nn.Sequential
+        Sequential container of linear layers and activation functions.
     """
 
-    def __init__(self, ilev, mean, std):
-        """Create an instance of FullyConnected NN model."""
+    def __init__(self):
         super(FullyConnected, self).__init__()
-        self.normalization = NormalizationLayer(mean, std)
-        self.ilev = ilev
-
+        ilev = 93
+        hidden_layers = 8
+        hidden_size = 500
         layers = []
-        layers.append(nn.Linear(8 * ilev + 4, 500))
-        layers.append(nn.SiLU())
 
-        num_layers = 10  # Example: Change this to the desired number of hidden layers
-        for _ in range(num_layers):
-            layers.append(nn.Linear(500, 500))
+        input_size = 8 * ilev + 4
+        for _ in range(hidden_layers):
+            layers.append(nn.Linear(input_size, hidden_size, dtype=torch.float64))
             layers.append(nn.SiLU())
-
-        layers.append(nn.Linear(500, 2 * ilev))
+            input_size = hidden_size
+        layers.append(nn.Linear(hidden_size, 2 * ilev, dtype=torch.float64))
         self.linear_stack = nn.Sequential(*layers)
 
-    def forward(self, x):
+    def forward(self, X):
         """
         Forward pass through the network.
 
-        Args:
-            x (torch.Tensor): Input tensor.
+        Parameters
+        ----------
+        X : torch.Tensor
+            Input tensor.
 
         Returns
         -------
-            torch.Tensor: Output tensor.
+        torch.Tensor
+            Output tensor.
         """
-        x = self.normalization(x)
-        return self.linear_stack(x)
+        return self.linear_stack(X)
+
+
+class EarlyStopper:
+    """
+    Early stopping utility to stop training when validation loss doesn't improve.
+
+    Parameters
+    ----------
+    patience : int, optional
+        Number of epochs to wait before stopping (default is 1).
+    min_delta : float, optional
+        Minimum change in the monitored quantity to qualify as an improvement (default is 0).
+
+    Attributes
+    ----------
+    patience : int
+        Number of epochs to wait before stopping.
+    min_delta : float
+        Minimum change in the monitored quantity to qualify as an improvement.
+    counter : int
+        Counter for the number of epochs without improvement.
+    min_validation_loss : float
+        Minimum validation loss recorded.
+    """
+
+    def __init__(self, patience=1, min_delta=0):
+        self.patience = patience
+        self.min_delta = min_delta
+        self.counter = 0
+        self.min_validation_loss = np.inf
+
+    def early_stop(self, validation_loss, model=None):
+        """
+        Check if training should be stopped early.
+
+        Parameters
+        ----------
+        validation_loss : float
+            Current validation loss.
+        model : nn.Module, optional
+            Model to save if validation loss improves (default is None).
+
+        Returns
+        -------
+        bool
+            True if training should be stopped, False otherwise.
+        """
+        if validation_loss < self.min_validation_loss:
+            self.min_validation_loss = validation_loss
+            self.counter = 0
+            if model is not None:
+                torch.save(model.state_dict(), "conv_torch.pth")
+        elif validation_loss > (self.min_validation_loss + self.min_delta):
+            self.counter += 1
+            if self.counter >= self.patience:
+                return True
+        return False
