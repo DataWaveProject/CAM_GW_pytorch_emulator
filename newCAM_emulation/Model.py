@@ -52,7 +52,7 @@ class FullyConnected(nn.Module):
     def __init__(self, ilev=93, hidden_layers=8, hidden_size=500):
         super(FullyConnected, self).__init__()
         layers = []
-        input_size = 8 * ilev + 4  ### Correct this hard coded part
+        input_size = 8 * ilev + 4  
         for _ in range(hidden_layers):
             layers.append(nn.Linear(input_size, hidden_size, dtype=torch.float64))
             layers.append(nn.SiLU())
