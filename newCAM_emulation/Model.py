@@ -15,14 +15,10 @@ class FullyConnected(nn.Module):
         Sequential container of linear layers and activation functions.
     """
 
-    def __init__(self):
+    def __init__(self, ilev=93, hidden_layers=8, hidden_size=500):
         super(FullyConnected, self).__init__()
-        ilev = 93
-        hidden_layers = 8
-        hidden_size = 500
         layers = []
-
-        input_size = 8 * ilev + 4
+        input_size = 8 * ilev + 4  ### Correct this hard coded part
         for _ in range(hidden_layers):
             layers.append(nn.Linear(input_size, hidden_size, dtype=torch.float64))
             layers.append(nn.SiLU())
