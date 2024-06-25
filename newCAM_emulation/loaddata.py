@@ -4,7 +4,6 @@ import torch
 import numpy as np
 import netCDF4 as nc
 
-features = ['PS', 'Z3', 'U', 'V', 'T', 'lat', 'lon', 'DSE', 'RHOI', 'NETDT', 'NM', 'UTGWSPEC', 'VTGWSPEC']
 
 def load_variables(directory_path, variable_names, startfile, endfile):
     """
@@ -94,7 +93,7 @@ def normalize_data(variable_data, mean_values, std_values):
     return normalized_data
 
 
-def data_loader(variable_names, normalized_data, ilev):
+def data_loader(variable_names, normalized_data, ilev, in_ver,in_nover,out_ver):
     """
     Prepares the data for training by organizing it into input and output arrays.
 
@@ -113,8 +112,8 @@ def data_loader(variable_names, normalized_data, ilev):
         Input and output arrays for training.
     """
     Ncol = normalized_data[variable_names[1]].shape[2]
-    dim_NN = int(8 * ilev + 4)  
-    dim_NNout = int(2 * ilev)
+    dim_NN = int(in_ver * ilev + in_nover)  
+    dim_NNout = int(out_ver * ilev)
     x_train = np.zeros([dim_NN, Ncol])
     y_train = np.zeros([dim_NNout, Ncol])
     target_var = ['UTGWSPEC', 'VTGWSPEC']
