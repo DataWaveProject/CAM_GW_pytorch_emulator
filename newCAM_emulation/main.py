@@ -8,10 +8,10 @@ from model import FullyConnected, EarlyStopper
 from train import train_with_early_stopping
 
 # File paths and parameters
-directory_path = '../Demodata/Convection'
-file_path_mean = '../Demodata/Convection/mean_demo_sub.npz'
-file_path_std = '../Demodata/Convection/std_demo_sub.npz'
-trained_model_path = 'conv_torch.pth'  # Path to save and load the trained model
+directory_path = 'Demodata/Convection'
+file_path_mean = 'Demodata/Convection/mean_demo_sub.npz'
+file_path_std = 'Demodata/Convection/std_demo_sub.npz'
+trained_model_path = 'trained_models/weights_conv'  # Path to save and load the trained model
 
 #variable information
 features = ['PS', 'Z3', 'U', 'V', 'T', 'lat', 'lon', 'DSE', 'RHOI', 'NETDT', 'NM', 'UTGWSPEC', 'VTGWSPEC']
@@ -21,11 +21,10 @@ in_nover = 4
 out_ver = 2
 
 # Load and preprocess data
-variable_data = load_variables(directory_path, features, 1, 5)
+variable_data = load_variables(directory_path, features, 1, 5) 
 mean_dict, std_dict = load_mean_std(file_path_mean, file_path_std, features)
 normalized_data = normalize_data(variable_data, mean_dict, std_dict)
 xtrain, ytrain = data_loader(features, normalized_data, ilev=ilev, in_ver=in_ver, in_nover=in_nover, out_ver=out_ver)
-
 
 # Print the shapes of xtrain and ytrain
 print(f"xtrain shape: {xtrain.shape}")
@@ -51,6 +50,8 @@ early_stopper = EarlyStopper(patience=5, min_delta=0)
 
 # Train the model with early stopping
 train_losses, val_losses = train_with_early_stopping(train_dataloader, val_dataloader, model, optimizer, criterion, early_stopper, epochs=epochs)
+print(f'Train Loss: {train_losses}')
+print(f'Valid Loss: {val_losses}')
 
 # Save the trained model
 torch.save(model.state_dict(), trained_model_path)
@@ -58,6 +59,7 @@ torch.save(model.state_dict(), trained_model_path)
 # Load the trained model for prediction
 model.load_state_dict(torch.load(trained_model_path))
 model.eval()
+print()
 
 # Prepare input data for prediction
 # For prediction, we need new input data. Here, we use different files for simplicity.
