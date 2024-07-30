@@ -96,10 +96,10 @@ def train_with_early_stopping(
     train_losses = []
     val_losses = [0]
     for epoch in range(epochs):
-        # if epoch % 2 == 0:
-        #     print(f"Epoch {epoch + 1}\n-------------------------------")
-        #     print(val_losses[-1])
-        #     print('counter=' + str(early_stopper.counter))
+        if epoch % 2 == 0:
+            print(f"Epoch {epoch + 1}\n-------------------------------")
+            print(val_losses[-1])
+            print("counter=" + str(early_stopper.counter))
         train_loss = train_loop(train_dataloader, model, criterion, optimizer)
         train_losses.append(train_loss)
         val_loss = val_loop(val_dataloader, model, criterion)

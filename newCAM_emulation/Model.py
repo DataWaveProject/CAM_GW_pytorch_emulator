@@ -100,8 +100,9 @@ class EarlyStopper:
         if validation_loss < self.min_validation_loss:
             self.min_validation_loss = validation_loss
             self.counter = 0
-            if model is not None:
-                torch.save(model.state_dict(), "conv_torch.pth")
+            # if model is not None:
+            #     # torch.save(model.state_dict(), 'conv_torch.pth')
+            #     torch.save(model.state_dict(), 'trained_models/weights_conv')
         elif validation_loss > (self.min_validation_loss + self.min_delta):
             self.counter += 1
             if self.counter >= self.patience:

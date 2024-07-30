@@ -126,9 +126,9 @@ def data_loader(variable_names, normalized_data, ilev, in_ver, in_nover, out_ver
     for var_name, var_data in normalized_data.items():
         var_shape = var_data.shape
         if var_name in target_var:
-            y_train[y_index * ilev : (y_index + 1) * ilev, :] = var_data.reshape(
-                ilev, Ncol
-            )
+            # y_train[y_index * ilev:(y_index + 1) * ilev, :] = var_data.reshape(ilev, Ncol)
+            y_train[y_index * ilev : (y_index + 1) * ilev, :] = var_data
+
             y_index += 1
         elif len(var_shape) == 2:
             x_train[x_index, :] = var_data
