@@ -27,7 +27,10 @@ class FullyConnected(nn.Module):
         self.hidden_size = hidden_size
 
         layers = []
+
         input_size = in_ver * ilev + in_nover
+
+        # The following for loop provides the sequential layer by layer flow of data in the model as the layers used in our model are identical.
         for _ in range(hidden_layers):
             layers.append(nn.Linear(input_size, hidden_size, dtype=torch.float64))
             layers.append(nn.SiLU())
