@@ -4,13 +4,13 @@ import torch
 from torch.utils.data import DataLoader
 import torch.nn as nn
 from loaddata import load_variables, load_mean_std, normalize_data, data_loader, MyDataset
-from model import FullyConnected, EarlyStopper
+from Model import FullyConnected, EarlyStopper
 from train import train_with_early_stopping
 
 # File paths and parameters
-directory_path = 'Demodata/Convection'
-file_path_mean = 'Demodata/Convection/mean_demo_sub.npz'
-file_path_std = 'Demodata/Convection/std_demo_sub.npz'
+directory_path = 'Demodata'
+file_path_mean = 'Demodata/mean_demo_sub.npz'
+file_path_std = 'Demodata/std_demo_sub.npz'
 trained_model_path = 'trained_models/weights_conv'  # Path to save and load the trained model
 
 #variable information
