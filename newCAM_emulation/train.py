@@ -3,6 +3,7 @@
 import torch
 from torch import nn
 
+# ruff: noqa: PLR0913
 
 def train_loop(dataloader, model, loss_fn, optimizer):
     """
