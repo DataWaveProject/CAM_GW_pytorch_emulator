@@ -17,14 +17,27 @@ from torch.utils.data import DataLoader
 from train import train_with_early_stopping
 
 # File paths and parameters
-directory_path = 'Demodata'
-file_path_mean = 'Demodata/mean_demo_sub.npz'
-file_path_std = 'Demodata/std_demo_sub.npz'
-trained_model_path = 'trained_models/weights_conv'
+directory_path = "Demodata"
+file_path_mean = "Demodata/mean_demo_sub.npz"
+file_path_std = "Demodata/std_demo_sub.npz"
+trained_model_path = "trained_models/weights_conv"
 
-#variable information
-features = ['PS', 'Z3', 'U', 'V', 'T', 'lat', 'lon', 'DSE',
-            'RHOI', 'NETDT', 'NM', 'UTGWSPEC', 'VTGWSPEC']
+# variable information
+features = [
+    "PS",
+    "Z3",
+    "U",
+    "V",
+    "T",
+    "lat",
+    "lon",
+    "DSE",
+    "RHOI",
+    "NETDT",
+    "NM",
+    "UTGWSPEC",
+    "VTGWSPEC",
+]
 ilev = 93
 in_ver = 8
 in_nover = 4
@@ -35,8 +48,13 @@ variable_data = load_variables(directory_path, features, 1, 5)
 mean_dict, std_dict = load_mean_std(file_path_mean, file_path_std, features)
 normalized_data = normalize_data(variable_data, mean_dict, std_dict)
 xtrain, ytrain = data_loader(
-    features, normalized_data, ilev=ilev, in_ver=in_ver,
-    in_nover=in_nover, out_ver=out_ver)
+    features,
+    normalized_data,
+    ilev=ilev,
+    in_ver=in_ver,
+    in_nover=in_nover,
+    out_ver=out_ver,
+)
 
 # Print the shapes of xtrain and ytrain
 print(f"xtrain shape: {xtrain.shape}")
@@ -46,7 +64,8 @@ print(f"ytrain shape: {ytrain.shape}")
 # Prepare dataset and dataloaders
 data = MyDataset(X=xtrain, Y=ytrain)
 split_data = torch.utils.data.random_split(
-    data, [0.75, 0.25], generator=torch.Generator().manual_seed(42))
+    data, [0.75, 0.25], generator=torch.Generator().manual_seed(42)
+)
 train_dataloader = DataLoader(split_data[0], batch_size=128, shuffle=True)
 val_dataloader = DataLoader(split_data[1], batch_size=len(split_data[1]), shuffle=True)
 
@@ -56,7 +75,7 @@ epochs = 100
 hidden_layers = 8
 hidden_size = 500
 
-model = FullyConnected(ilev, in_ver,in_nover,out_ver, hidden_layers, hidden_size)
+model = FullyConnected(ilev, in_ver, in_nover, out_ver, hidden_layers, hidden_size)
 optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 criterion = nn.MSELoss()
 early_stopper = EarlyStopper(patience=5, min_delta=0)
@@ -69,9 +88,10 @@ train_losses, val_losses = train_with_early_stopping(
     optimizer,
     criterion,
     early_stopper,
-    epochs=epochs)
-print(f'Train Loss: {train_losses}')
-print(f'Valid Loss: {val_losses}')
+    epochs=epochs,
+)
+print(f"Train Loss: {train_losses}")
+print(f"Valid Loss: {val_losses}")
 
 # Save the trained model
 torch.save(model.state_dict(), trained_model_path)
@@ -86,8 +106,13 @@ print()
 test_data = load_variables(directory_path, features, 4, 5)
 normalized_test_data = normalize_data(test_data, mean_dict, std_dict)
 x_test, y_test = data_loader(
-    features, normalized_test_data, ilev=ilev, in_ver=in_ver,
-    in_nover=in_nover, out_ver=out_ver)
+    features,
+    normalized_test_data,
+    ilev=ilev,
+    in_ver=in_ver,
+    in_nover=in_nover,
+    out_ver=out_ver,
+)
 
 # Convert test data to tensors
 x_test_tensor = torch.tensor(x_test, dtype=torch.float64).T

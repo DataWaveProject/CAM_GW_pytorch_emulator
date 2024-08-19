@@ -6,6 +6,7 @@ from torch import nn
 
 # ruff: noqa: PLR0913
 
+
 class FullyConnected(nn.Module):
     """
     Fully connected neural network model.
@@ -17,8 +18,7 @@ class FullyConnected(nn.Module):
     """
 
     def __init__(
-        self, ilev=93, in_ver=8, in_nover=4, out_ver=2,
-        hidden_layers=8, hidden_size=500
+        self, ilev=93, in_ver=8, in_nover=4, out_ver=2, hidden_layers=8, hidden_size=500
     ):
         super(FullyConnected, self).__init__()
         self.ilev = ilev
