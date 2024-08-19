@@ -24,17 +24,17 @@ trained_model_path = "trained_models/weights_conv"
 
 # variable information
 features = [
-    "PS",
-    "Z3",
     "U",
     "V",
     "T",
+    "DSE",
+    "NM",
+    "NETDT",
+    "Z3",
+    "RHOI",
+    "PS",
     "lat",
     "lon",
-    "DSE",
-    "RHOI",
-    "NETDT",
-    "NM",
     "UTGWSPEC",
     "VTGWSPEC",
 ]
