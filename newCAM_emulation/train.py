@@ -3,6 +3,7 @@
 import torch
 from torch import nn
 
+# ruff: noqa: PLR0913
 
 def train_loop(dataloader, model, loss_fn, optimizer):
     """
@@ -38,22 +39,21 @@ def train_loop(dataloader, model, loss_fn, optimizer):
 
 def val_loop(dataloader, model, loss_fn):
     """
-        Validation loop for a single epoch.
-    >>>>>>> 70b2c64 (Updated loaddata, Model, train files and removed NN_pred, and added a main file)
+        Validate loop for a single epoch.
 
-        Parameters
-        ----------
-        dataloader : torch.utils.data.DataLoader
-            DataLoader for the validation data.
-        model : nn.Module
-            Neural network model.
-        loss_fn : callable
-            Loss function.
+    Parameters
+    ----------
+    dataloader : torch.utils.data.DataLoader
+        DataLoader for the validation data.
+    model : nn.Module
+        Neural network model.
+    loss_fn : callable
+        Loss function.
 
-        Returns
-        -------
-        float
-            Average validation loss.
+    Returns
+    -------
+    float
+        Average validation loss.
     """
     avg_loss = sum(loss_fn(model(X), Y).item() for X, Y in dataloader) / len(dataloader)
     return avg_loss

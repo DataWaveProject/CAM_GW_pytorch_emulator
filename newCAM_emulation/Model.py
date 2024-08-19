@@ -1,9 +1,10 @@
 """Neural Network model for the CAM-EM."""
 
-import torch
 import numpy as np
+import torch
 from torch import nn
 
+# ruff: noqa: PLR0913
 
 class FullyConnected(nn.Module):
     """
@@ -16,7 +17,8 @@ class FullyConnected(nn.Module):
     """
 
     def __init__(
-        self, ilev=93, in_ver=8, in_nover=4, out_ver=2, hidden_layers=8, hidden_size=500
+        self, ilev=93, in_ver=8, in_nover=4, out_ver=2,
+        hidden_layers=8, hidden_size=500
     ):
         super(FullyConnected, self).__init__()
         self.ilev = ilev
@@ -30,7 +32,8 @@ class FullyConnected(nn.Module):
 
         input_size = in_ver * ilev + in_nover
 
-        # The following for loop provides the sequential layer by layer flow of data in the model as the layers used in our model are identical.
+        # The following for loop provides the sequential layer by layer flow
+        # of data in the model as the layers used in our model are identical.
         for _ in range(hidden_layers):
             layers.append(nn.Linear(input_size, hidden_size, dtype=torch.float64))
             layers.append(nn.SiLU())
@@ -64,7 +67,7 @@ class EarlyStopper:
     patience : int, optional
         Number of epochs to wait before stopping (default is 1).
     min_delta : float, optional
-        Minimum change in the monitored quantity to qualify as an improvement (default is 0).
+        Minimum change in the loss to qualify as an improvement (default is 0).
 
     Attributes
     ----------

@@ -2,14 +2,17 @@
 
 import os
 import re
-import torch
-import numpy as np
-import netCDF4 as nc
 
+import netCDF4 as nc
+import numpy as np
+import torch
+
+# ruff: noqa: PLR0913
+# ruff: noqa: PLR2004
 
 def load_variables(directory_path, variable_names, startfile, endfile):
     """
-    Loads specified variables from NetCDF files in the given directory.
+    Load specified variables from NetCDF files in the given directory.
 
     Parameters
     ----------
@@ -46,7 +49,7 @@ def load_variables(directory_path, variable_names, startfile, endfile):
 
 def load_mean_std(file_path_mean, file_path_std, variable_names):
     """
-    Loads mean and standard deviation values for specified variables from files.
+    Load mean and standard deviation values for specified variables from files.
 
     Parameters
     ----------
@@ -71,7 +74,7 @@ def load_mean_std(file_path_mean, file_path_std, variable_names):
 
 def normalize_data(variable_data, mean_values, std_values):
     """
-    Normalizes the data using mean and standard deviation values.
+    Normalize the data using mean and standard deviation values.
 
     Parameters
     ----------
@@ -99,7 +102,7 @@ def normalize_data(variable_data, mean_values, std_values):
 
 def data_loader(variable_names, normalized_data, ilev, in_ver, in_nover, out_ver):
     """
-    Prepares the data for training by organizing it into input and output arrays.
+    Prepare the data for training by organizing it into input and output arrays.
 
     Parameters
     ----------
@@ -109,6 +112,13 @@ def data_loader(variable_names, normalized_data, ilev, in_ver, in_nover, out_ver
         Dictionary containing normalized data.
     ilev : int
         Number of vertical levels.
+    in_ver : int
+        Number of input variables that vary across vertical levels.
+    in_nover : int
+        Number of input variables that do not vary across vertical levels.
+    out_ver : int
+        Number of output variables that vary across vertical levels.
+
 
     Returns
     -------
@@ -126,9 +136,7 @@ def data_loader(variable_names, normalized_data, ilev, in_ver, in_nover, out_ver
     for var_name, var_data in normalized_data.items():
         var_shape = var_data.shape
         if var_name in target_var:
-            # y_train[y_index * ilev:(y_index + 1) * ilev, :] = var_data.reshape(ilev, Ncol)
             y_train[y_index * ilev : (y_index + 1) * ilev, :] = var_data
-
             y_index += 1
         elif len(var_shape) == 2:
             x_train[x_index, :] = var_data
@@ -164,7 +172,8 @@ class MyDataset(torch.utils.data.Dataset):
 
     def __len__(self):
         """
-        Returns the length of the dataset.
+        Return the length of the dataset.
+
         Returns
         -------
         int
@@ -174,7 +183,7 @@ class MyDataset(torch.utils.data.Dataset):
 
     def __getitem__(self, idx):
         """
-        Returns a single sample from the dataset.
+        Return a single sample from the dataset.
 
         Parameters
         ----------
