@@ -14,17 +14,32 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      #Checkout Code
       - uses: actions/checkout@v4
+
+      #Set up Python
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
+      #Install dependencies
       - name: Install dependencies
         run: pip install .[lint]
+             pip install pre-commit
+
+      #Run pre-commit hooks
+      - name: Run pre-commit hooks
+        run: |
+          pre-commit run --all-files
+
+      #Check code formatting with ruff
       # annotate each step with `if: always` to run all regardless
       - name: Check code formatting with ruff
         if: always()
         run: ruff format --diff newCAM_emulation/
+
+      #Lint with ruff using pyproject.toml configuration
       - name: Lint with ruff using pyproject.toml configuration
         if: always()
         run: ruff check newCAM_emulation/
+      
