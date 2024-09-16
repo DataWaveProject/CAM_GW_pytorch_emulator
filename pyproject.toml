@@ -34,7 +34,6 @@ dependencies = [
     "xarray",
     "netcdf4",
 ]
-
 [project.optional-dependencies]
 lint = [
     "ruff>=0.3.2",
