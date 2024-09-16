@@ -131,7 +131,7 @@ def data_loader(variable_names, normalized_data, ilev, in_ver, in_nover, out_ver
     dim_NNout = int(out_ver * ilev)
     x_train = np.zeros([dim_NN, Ncol])
     y_train = np.zeros([dim_NNout, Ncol])
-    target_var = ["UTGWSPEC", "VTGWSPEC"]
+    target_var = variable_names[-2:]
     y_index = 0
     x_index = 0
     for var_name, var_data in normalized_data.items():
