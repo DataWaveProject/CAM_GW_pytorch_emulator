@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: v0.1.0  # Use the latest version of the ruff-pre-commit repo
+    rev: v0.1.0
     hooks:
       - id: ruff
         args: [--fix]  # This will auto-fix issues if possible
