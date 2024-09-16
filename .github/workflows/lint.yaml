@@ -25,12 +25,6 @@ jobs:
       #Install dependencies
       - name: Install dependencies
         run: pip install .[lint]
-             pip install pre-commit
-
-      #Run pre-commit hooks
-      - name: Run pre-commit hooks
-        run: |
-          pre-commit run --all-files
 
       #Check code formatting with ruff
       # annotate each step with `if: always` to run all regardless
