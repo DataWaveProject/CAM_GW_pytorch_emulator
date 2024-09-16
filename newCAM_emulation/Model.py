@@ -56,5 +56,3 @@ class FullyConnected(nn.Module):
             Output tensor.
         """
         return self.linear_stack(X)
-
-
