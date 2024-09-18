@@ -11,10 +11,10 @@ from loaddata import (
     load_variables,
     normalize_data,
 )
-from Model import EarlyStopper, FullyConnected
+from Model import FullyConnected
 from torch import nn
 from torch.utils.data import DataLoader
-from train import train_with_early_stopping
+from train import early_stopping, train_with_early_stopping
 
 # File paths and parameters
 directory_path = "Demodata"
@@ -78,7 +78,7 @@ hidden_size = 500
 model = FullyConnected(ilev, in_ver, in_nover, out_ver, hidden_layers, hidden_size)
 optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 criterion = nn.MSELoss()
-early_stopper = EarlyStopper(patience=5, min_delta=0)
+early_stopper = early_stopping(patience=5, min_delta=0)
 
 # Train the model with early stopping
 train_losses, val_losses = train_with_early_stopping(
