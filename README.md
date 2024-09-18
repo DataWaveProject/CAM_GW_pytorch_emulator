@@ -48,13 +48,23 @@ The model is trained using the script `train.py` using the demo data. The optimi
 The `Demodata` folder contains the demo data used to train and test the model
 
 The `newCAM_emulation` folder contains the code that is required to load data, train the model and make predictions which is structured as following:
-> `train.py` - train the model
 
-> `NN-pred.py` - predict the GWD using the trained model
-    
-> `loaddata.py` - load the data and reshape it to the NN input
+> `loaddata.py` - load the data from source .nc files and normalises before feeding it to the neural network.
 
-> `model.py` - define the NN model
+> `model.py` - defines the NN class and the early stopping mechanism.
+
+> `train.py` - trains the model for given number of epochs using the training and validation loops.
+
+> `main.py` - uses the above three modules to sequentially 
+1. Read the features list (would vary depending on the GW source, currently is convection)
+2. Take information on data like ilev, number of variables varying acrross vertical levels etc.
+3. Use `loaddata.py` to load data for the variables in the feature list defined earlier, normalise it, build an `xtrain` `ytrain` for model using a data loader and finally create a custom dataset for easy iteration over the xtrain and ytrain. 
+4. Take model hyperparameters such as learning rate, epochs, hidden layers and passes to `model.py`
+5. Also take Loss function, optimiser and early stopping parameters ans pass it to `train.py` along with the defined model and the custom dataset.
+6. Train the model and save the weights in the  
+`trained_models` folder. 
+7. The saved model can be loaded and tested on any dataset here.
+ 
 
 ## Usage Instructions
 To use the repository, following steps are required:
