@@ -4,3 +4,4 @@ repos:
     hooks:
       - id: ruff
         args: [--fix]  # This will auto-fix issues if possible
+      - id: ruff-format
