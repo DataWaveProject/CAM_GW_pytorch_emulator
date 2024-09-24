@@ -34,10 +34,12 @@ dependencies = [
     "xarray",
     "netcdf4",
 ]
-
 [project.optional-dependencies]
 lint = [
     "ruff>=0.3.2",
+]
+pre-commit = [
+    "pre-commit>=3.3.3",
 ]
 
 [project.urls]

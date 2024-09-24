@@ -134,7 +134,7 @@ def train_loop(dataloader, model, loss_fn, optimizer):
 # validating loop
 def val_loop(dataloader, model, loss_fn):
     """
-    Validation loop.
+    Run the validation loop.
 
     Args:
         dataloader (DataLoader): DataLoader for validation data.

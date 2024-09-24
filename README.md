@@ -23,7 +23,16 @@ https://www.cesm.ucar.edu/models/cam.
     ```
     pip install .
     ```
-It is recommended this is done from inside a virtual environment.
+3. (Optional) Install an additional package `pre-commit` to ensure consistent code format throughout development. If installed, it automatically runs on codebase before committing changes. Run below commands to install pre-commit and it's hooks:
+    ```
+    pip install pre-commit
+    pre-commit install
+    ```
+    The commands will first install the pre-commit package and then the formatting tools that pre-commit package is using on the code.
+
+Note: It is recommended this is done from inside a virtual environment.
+
+
 
 
 # Model Description

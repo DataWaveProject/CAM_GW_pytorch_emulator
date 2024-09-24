@@ -1,0 +1,1 @@
+"""newCAM_emulation package."""
