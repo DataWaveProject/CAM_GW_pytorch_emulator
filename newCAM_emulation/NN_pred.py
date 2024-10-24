@@ -36,14 +36,17 @@ num_epochs = 1
 
 
 ## load mean and std for normalization
-fm = np.load("Demodata/mean_demo_sub.npz")
-fs = np.load("Demodata/std_demo_sub.npz")
+# fm = np.load("Demodata/mean_demo_sub.npz")
+# fs = np.load("Demodata/std_demo_sub.npz")
+
+fm = nc.Dataset('/glade/derecho/scratch/yqsun/archive/meanstd/mid-top-CAM_mean_SCM.nc')
+fs = nc.Dataset('/glade/derecho/scratch/yqsun/archive/meanstd/mid-top-CAM_std_SCM.nc')
 
 Um = fm["U"]
 Vm = fm["V"]
 Tm = fm["T"]
 DSEm = fm["DSE"]
-NMm = fm["NM"]
+NMm = fm["NMBV"]
 NETDTm = fm["NETDT"]
 Z3m = fm["Z3"]
 RHOIm = fm["RHOI"]
@@ -57,7 +60,7 @@ Us = fs["U"]
 Vs = fs["V"]
 Ts = fs["T"]
 DSEs = fs["DSE"]
-NMs = fs["NM"]
+NMs = fs["NMBV"]
 NETDTs = fs["NETDT"]
 Z3s = fs["Z3"]
 RHOIs = fs["RHOI"]
@@ -76,13 +79,15 @@ GWnet = Model.FullyConnected()
 optimizer = torch.optim.Adam(GWnet.parameters(), lr=learning_rate)
 
 
-s_list = list(range(6, 7))
+s_list = list(range(1, 6))
+model_path = "/glade/derecho/scratch/jatkinson/archive/CAM_GW_zero-tend/atm/hist/CAM_GW_zero-tend.cam.h1.1979-01-01-00000.nc"
 
 data_vars = []
 
 for iter in s_list:
     if iter > 0:
-        GWnet.load_state_dict(torch.load("./conv_torch.pth"))
+        # GWnet.load_state_dict(torch.load("./conv_torch.pth"))
+        GWnet = torch.jit.load(model_path)
         GWnet.eval()
     print("data loader iteration", iter)
     filename = "Demodata/newCAM_demo_sub_" + str(iter).zfill(1) + ".nc"
