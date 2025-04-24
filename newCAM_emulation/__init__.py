@@ -1,1 +1,1 @@
-"""newCAM_emulation package."""
+"""Instantiate the Emulation."""
